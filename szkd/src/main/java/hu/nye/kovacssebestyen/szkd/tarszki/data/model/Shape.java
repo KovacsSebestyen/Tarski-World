@@ -9,12 +9,12 @@ public class Shape {
     private Type shape;
     private Color color;
     private Size size;
-    private Character name;
+    private String name;
 
     public Shape() {
     }
 
-    public Shape(Integer pos_x, Integer pos_y, Type shape, Color color, Size size, Character name) {
+    public Shape(Integer pos_x, Integer pos_y, Type shape, Color color, Size size, String name) {
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         this.shape = shape;
@@ -23,11 +23,11 @@ public class Shape {
         this.name = name;
     }
 
-    public Character getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Character name) {
+    public void setName(String name) {
         this.name = name;
     }
 

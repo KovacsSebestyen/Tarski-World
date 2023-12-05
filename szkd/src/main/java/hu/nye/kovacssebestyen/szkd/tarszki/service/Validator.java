@@ -1,8 +1,17 @@
 package hu.nye.kovacssebestyen.szkd.tarszki.service;
 
+import hu.nye.kovacssebestyen.szkd.tarszki.data.model.*;
+
 public class Validator {
 
-    //
+    private TarskiData tarskiData;
+
+    public Validator(TarskiData tarskiData) {
+        this.tarskiData = tarskiData;
+    }
+
+    public Validator() {
+    }
 
     public String check(String formula){
         if (formula.equals("(true)")) {
@@ -235,11 +244,301 @@ public class Validator {
             }
         }
 
+        //'A' keresése -- még nincs -----------------
+
+        //'E' keresése -- még nincs -----------------
+
+        //MÉRETEK
+        //'Small()' keresése
+        if(formula.contains("Small(")) {
+            if(small(formula.substring(6, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //'Medium()' keresése
+        if(formula.contains("Medium(")) {
+            if(medium(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //'Large()' keresése
+        if(formula.contains("Large(")) {
+            if(large(formula.substring(6, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //SZÍNEK
+        //'Red()' keresése
+        if(formula.contains("Red(")) {
+            if(red(formula.substring(4, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //'Green()' keresése
+        if(formula.contains("Green(")) {
+            if(green(formula.substring(6, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //'Blue()' keresése
+        if(formula.contains("Blue(")) {
+            if(blue(formula.substring(5, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //ALAKZATOK
+        //'Triangle()' keresése
+        if(formula.contains("Triangle(")) {
+            if(triangle(formula.substring(9, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //'Square()' keresése
+        if(formula.contains("Square(")) {
+            if(square(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //'Circle()' keresése
+        if(formula.contains("Circle(")) {
+            if(circle(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
         return "";
     }
 
-    public String small(Character shapeName){
 
-        return "(true)";
+    public String small(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getSize() == Size.Small) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String medium(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getSize() == Size.Medium) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String large(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getSize() == Size.Large) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String red(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getColor() == Color.Red) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String green(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getColor() == Color.Green) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String blue(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getColor() == Color.Blue) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String triangle(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getShape() == Type.Triangle) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String square(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getShape() == Type.Square) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String circle(String shapeName) {
+        boolean exist = false;
+        int index = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapes.length; i++) {
+            if(shapes[i].getName().equals(shapeName)) {
+                exist = true;
+                index = i;
+            }
+        }
+
+        if(exist) {
+            if(shapes[index].getShape() == Type.Circle) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
     }
 }
