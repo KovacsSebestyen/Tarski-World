@@ -213,7 +213,7 @@ public class Validator {
         }
 
         //'-' keresése
-        if(formula.contains("-")) {
+        if (formula.contains("-")) {
             int depth = 0;
             int index = 0;
             boolean foundAtZeroDepth = false;
@@ -244,13 +244,83 @@ public class Validator {
             }
         }
 
-        //'A' keresése -- még nincs -----------------
+        //'A' keresése
+        if (formula.contains("A")) {
+            int depth = 0;
+            int index = 0;
+            boolean foundAtZeroDepth = false;
+            for (int i = 0; i < formulaChar.length; i++) {
+                if (formulaChar[i] == '(') {
+                    depth++;
+                }
+                if (formulaChar[i] == ')') {
+                    depth--;
+                }
+                if(formulaChar[i] == 'A' && depth == 0) {
+                    index = i;
+                    foundAtZeroDepth = true;
+                    i = formulaChar.length;
+                }
+            }
+            if (foundAtZeroDepth) {
+                char variant = formulaChar[index + 1];
+                boolean all = true;
+                String help = "";
+                for (int i = 0; i < tarskiData.getShapes().length; i++) {
+                    help = formula.replace("(" + variant + ")", "(" + i + ")" ); //Ax(Blue(0)\/Small(0))
+                    if(check(help.substring(index + 2)) == "(false)") {
+                        all = false;
+                        i = formulaChar.length;
+                    }
+                }
+                if(all){
+                    return "(true)";
+                } else {
+                    return "(false)";
+                }
+            }
+        }
 
-        //'E' keresése -- még nincs -----------------
+        //'E' keresése
+        if (formula.contains("E")) {
+            int depth = 0;
+            int index = 0;
+            boolean foundAtZeroDepth = false;
+            for (int i = 0; i < formulaChar.length; i++) {
+                if (formulaChar[i] == '(') {
+                    depth++;
+                }
+                if (formulaChar[i] == ')') {
+                    depth--;
+                }
+                if(formulaChar[i] == 'E' && depth == 0) {
+                    index = i;
+                    foundAtZeroDepth = true;
+                    i = formulaChar.length;
+                }
+            }
+            if (foundAtZeroDepth) {
+                char variant = formulaChar[index + 1];
+                boolean any = false;
+                String help = "";
+                for (int i = 0; i < tarskiData.getShapes().length; i++) {
+                    help = formula.replace("(" + variant + ")", "(" + i + ")" );
+                    if(check(help.substring(index + 2)) == "(true)") {
+                        any = true;
+                        i = formulaChar.length;
+                    }
+                }
+                if(any){
+                    return "(true)";
+                } else {
+                    return "(false)";
+                }
+            }
+        }
 
         //MÉRETEK
         //'Small()' keresése
-        if(formula.contains("Small(")) {
+        if (formula.contains("Small(")) {
             if(small(formula.substring(6, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -259,7 +329,7 @@ public class Validator {
         }
 
         //'Medium()' keresése
-        if(formula.contains("Medium(")) {
+        if (formula.contains("Medium(")) {
             if(medium(formula.substring(7, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -268,7 +338,7 @@ public class Validator {
         }
 
         //'Large()' keresése
-        if(formula.contains("Large(")) {
+        if (formula.contains("Large(")) {
             if(large(formula.substring(6, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -278,7 +348,7 @@ public class Validator {
 
         //SZÍNEK
         //'Red()' keresése
-        if(formula.contains("Red(")) {
+        if (formula.contains("Red(")) {
             if(red(formula.substring(4, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -287,7 +357,7 @@ public class Validator {
         }
 
         //'Green()' keresése
-        if(formula.contains("Green(")) {
+        if (formula.contains("Green(")) {
             if(green(formula.substring(6, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -296,7 +366,7 @@ public class Validator {
         }
 
         //'Blue()' keresése
-        if(formula.contains("Blue(")) {
+        if (formula.contains("Blue(")) {
             if(blue(formula.substring(5, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -306,7 +376,7 @@ public class Validator {
 
         //ALAKZATOK
         //'Triangle()' keresése
-        if(formula.contains("Triangle(")) {
+        if (formula.contains("Triangle(")) {
             if(triangle(formula.substring(9, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -315,7 +385,7 @@ public class Validator {
         }
 
         //'Square()' keresése
-        if(formula.contains("Square(")) {
+        if (formula.contains("Square(")) {
             if(square(formula.substring(7, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -324,7 +394,7 @@ public class Validator {
         }
 
         //'Circle()' keresése
-        if(formula.contains("Circle(")) {
+        if (formula.contains("Circle(")) {
             if(circle(formula.substring(7, formulaChar.length - 1)) == "(true)") {
                 return "(true)";
             } else {
@@ -338,13 +408,26 @@ public class Validator {
 
     public String small(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -361,13 +444,26 @@ public class Validator {
 
     public String medium(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -384,13 +480,26 @@ public class Validator {
 
     public String large(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -407,13 +516,26 @@ public class Validator {
 
     public String red(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -430,13 +552,26 @@ public class Validator {
 
     public String green(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -453,13 +588,26 @@ public class Validator {
 
     public String blue(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -476,13 +624,26 @@ public class Validator {
 
     public String triangle(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -499,13 +660,26 @@ public class Validator {
 
     public String square(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
@@ -522,13 +696,26 @@ public class Validator {
 
     public String circle(String shapeName) {
         boolean exist = false;
+        boolean isNumber = true;
+        int number = 0;
         int index = 0;
         Shape[] shapes = tarskiData.getShapes();
 
-        for (int i = 0; i < shapes.length; i++) {
-            if(shapes[i].getName().equals(shapeName)) {
-                exist = true;
-                index = i;
+        try{
+            number = Integer.parseInt(shapeName);
+        } catch (Exception e) {
+            isNumber = false;
+        }
+
+        if (isNumber) {
+            exist = true;
+            index = number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if (shapes[i].getName().equals(shapeName)) {
+                    exist = true;
+                    index = i;
+                }
             }
         }
 
