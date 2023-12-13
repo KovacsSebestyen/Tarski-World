@@ -13,7 +13,14 @@ public class Validator {
     public Validator() {
     }
 
+    public TarskiData getTarskiData() {
+        return tarskiData;
+    }
+
     public String check(String formula){
+        if(formula.contains(" ")) {
+            formula.replace(" ", "");
+        }
         if (formula.equals("(true)")) {
             return "(true)";
         }
@@ -402,7 +409,25 @@ public class Validator {
             }
         }
 
-        return "";
+        //'LeftOf()' keresése - LeftOf(A,B) is true if 'A' x position < 'B' x position
+        if(formula.contains("LeftOf(")) {
+            if(leftOf(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        //'RightOf()' keresése - RightOf(A,B) is true if 'A' x position > 'B' x position
+        if(formula.contains("RightOf(")) {
+            if(rightOf(formula.substring(8, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
+        return "Syntax error";
     }
 
 
@@ -721,6 +746,150 @@ public class Validator {
 
         if(exist) {
             if(shapes[index].getShape() == Type.Circle) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String leftOf(String shapeNames) {
+        char[] shapeNamesChar = shapeNames.toCharArray();
+        String shapeName1 = "";
+        String shapeName2 = "";
+        boolean isShapeName1IsNumber = true;
+        boolean isShapeName2IsNumber = true;
+        boolean exist1 = false;
+        boolean exist2 = false;
+        int cut = 0;
+        int shapeName1Number = 0;
+        int shapeName2Number = 0;
+        int index1 = 0;
+        int index2 = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapeNamesChar.length; i++){
+            if(shapeNamesChar[i] == ',') {
+                cut = i;
+                i = shapeNamesChar.length;
+            }
+        }
+
+        shapeName1 = shapeNames.substring(0,cut);
+        shapeName2 = shapeNames.substring(cut+1);
+
+        try {
+            shapeName1Number = Integer.parseInt(shapeName1);
+        }  catch (Exception e){
+            isShapeName1IsNumber = false;
+        }
+
+        if(isShapeName1IsNumber) {
+            exist1 = true;
+            index1 = shapeName1Number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if(shapes[i].getName().equals(shapeName1)) {
+                    exist1 = true;
+                    index1 = i;
+                }
+            }
+        }
+
+        try {
+            shapeName2Number = Integer.parseInt(shapeName2);
+        } catch (Exception e) {
+            isShapeName2IsNumber = false;
+        }
+
+        if(isShapeName2IsNumber) {
+            exist2 = true;
+            index2 = shapeName2Number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if(shapes[i].getName().equals(shapeName2)) {
+                    exist2 = true;
+                    index2 = i;
+                }
+            }
+        }
+
+        if(exist1&&exist2) {
+            if(shapes[index1].getPos_x() < shapes[index2].getPos_x()) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String rightOf(String shapeNames) {
+        char[] shapeNamesChar = shapeNames.toCharArray();
+        String shapeName1 = "";
+        String shapeName2 = "";
+        boolean isShapeName1IsNumber = true;
+        boolean isShapeName2IsNumber = true;
+        boolean exist1 = false;
+        boolean exist2 = false;
+        int cut = 0;
+        int shapeName1Number = 0;
+        int shapeName2Number = 0;
+        int index1 = 0;
+        int index2 = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapeNamesChar.length; i++){
+            if(shapeNamesChar[i] == ',') {
+                cut = i;
+                i = shapeNamesChar.length;
+            }
+        }
+
+        shapeName1 = shapeNames.substring(0,cut);
+        shapeName2 = shapeNames.substring(cut+1);
+
+        try {
+            shapeName1Number = Integer.parseInt(shapeName1);
+        }  catch (Exception e){
+            isShapeName1IsNumber = false;
+        }
+
+        if(isShapeName1IsNumber) {
+            exist1 = true;
+            index1 = shapeName1Number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if(shapes[i].getName().equals(shapeName1)) {
+                    exist1 = true;
+                    index1 = i;
+                }
+            }
+        }
+
+        try {
+            shapeName2Number = Integer.parseInt(shapeName2);
+        } catch (Exception e) {
+            isShapeName2IsNumber = false;
+        }
+
+        if(isShapeName2IsNumber) {
+            exist2 = true;
+            index2 = shapeName2Number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if(shapes[i].getName().equals(shapeName2)) {
+                    exist2 = true;
+                    index2 = i;
+                }
+            }
+        }
+
+        if(exist1&&exist2) {
+            if(shapes[index1].getPos_x() > shapes[index2].getPos_x()) {
                 return "(true)";
             } else {
                 return "(false)";
