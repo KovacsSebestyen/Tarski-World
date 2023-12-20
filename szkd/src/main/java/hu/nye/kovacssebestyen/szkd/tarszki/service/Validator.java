@@ -427,6 +427,15 @@ public class Validator {
             }
         }
 
+        //'Between()' keresése - Between(A,B,C) is true if 'A' x position < 'B' x position < 'C' x position
+        if(formula.contains("Between(")) {
+            if(between(formula.substring(8, formulaChar.length - 1)) == "(true)") {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+
         return "Syntax error";
     }
 
@@ -890,6 +899,105 @@ public class Validator {
 
         if(exist1&&exist2) {
             if(shapes[index1].getPos_x() > shapes[index2].getPos_x()) {
+                return "(true)";
+            } else {
+                return "(false)";
+            }
+        }
+        return "(false)";
+    }
+
+
+    public String between(String shapeNames) {
+        char[] shapeNamesChar = shapeNames.toCharArray();
+        String shapeName1 = "";
+        String shapeName2 = "";
+        String shapeName3 = "";
+        boolean isShapeName1IsNumber = true;
+        boolean isShapeName2IsNumber = true;
+        boolean isShapeName3IsNumber = true;
+        boolean exist1 = false;
+        boolean exist2 = false;
+        boolean exist3 = false;
+        boolean split = true;
+        int cut = 1;
+        int shapeName1Number = 0;
+        int shapeName2Number = 0;
+        int shapeName3Number = 0;
+        int index1 = 0;
+        int index2 = 0;
+        int index3 = 0;
+        Shape[] shapes = tarskiData.getShapes();
+
+        for (int i = 0; i < shapeNamesChar.length; i++){
+            if(shapeNamesChar[i] == ',' && split) {
+                cut = i + 1;
+                split = false;
+                shapeName1 = shapeNames.substring(0,i);
+            }
+            if(shapeNamesChar[i] == ',' && !split) {
+                shapeName2 = shapeNames.substring(cut,i);
+                shapeName3 = shapeNames.substring(i+1);
+                i = shapeNamesChar.length;
+            }
+        }
+
+        try {
+            shapeName1Number = Integer.parseInt(shapeName1);
+        }  catch (Exception e){
+            isShapeName1IsNumber = false;
+        }
+
+        if(isShapeName1IsNumber) {
+            exist1 = true;
+            index1 = shapeName1Number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if(shapes[i].getName().equals(shapeName1)) {
+                    exist1 = true;
+                    index1 = i;
+                }
+            }
+        }
+
+        try {
+            shapeName2Number = Integer.parseInt(shapeName2);
+        } catch (Exception e) {
+            isShapeName2IsNumber = false;
+        }
+
+        if(isShapeName2IsNumber) {
+            exist2 = true;
+            index2 = shapeName2Number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if(shapes[i].getName().equals(shapeName2)) {
+                    exist2 = true;
+                    index2 = i;
+                }
+            }
+        }
+
+        try {
+            shapeName3Number = Integer.parseInt(shapeName3);
+        } catch (Exception e) {
+            isShapeName3IsNumber = false;
+        }
+
+        if(isShapeName3IsNumber) {
+            exist3 = true;
+            index3 = shapeName3Number;
+        } else {
+            for (int i = 0; i < shapes.length; i++) {
+                if(shapes[i].getName().equals(shapeName3)) {
+                    exist3 = true;
+                    index3 = i;
+                }
+            }
+        }
+
+        if(exist1&&exist2&&exist3) {
+            if(shapes[index1].getPos_x() < shapes[index2].getPos_x() && shapes[index2].getPos_x() < shapes[index3].getPos_x()) {
                 return "(true)";
             } else {
                 return "(false)";
