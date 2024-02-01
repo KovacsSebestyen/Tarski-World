@@ -2,6 +2,7 @@ package hu.nye.kovacssebestyen.szkd.tarszki.web.controller;
 
 import hu.nye.kovacssebestyen.szkd.tarszki.data.model.TarskiData;
 import hu.nye.kovacssebestyen.szkd.tarszki.service.Validator;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,9 @@ public class ShapesController {
 
     @PostMapping("/validate")
     public ResponseEntity<String> createShapes(Model model, @RequestBody TarskiData tarskiData) {
-        //System.out.println(tarskiData.toString());
+        if(tarskiData.getFormula().equals("")){
+            return ResponseEntity.ok("cat");
+        }
         Validator validator = new Validator(tarskiData);
         String result = validator.check(validator.getTarskiData().getFormula());
 
@@ -26,6 +29,9 @@ public class ShapesController {
             return ResponseEntity.ok(result);
         } else if(result.equals("(false)")) {
             System.out.println("false");
+            return ResponseEntity.ok(result);
+        } else if(result.equals("Syntax error")){
+            System.out.println("Syntax error");
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.notFound().build();

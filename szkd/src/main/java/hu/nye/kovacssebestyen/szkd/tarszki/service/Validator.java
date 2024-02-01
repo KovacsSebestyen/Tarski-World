@@ -18,6 +18,8 @@ public class Validator {
     }
 
     public String check(String formula){
+        System.out.println(formula);
+
         if(formula.contains(" ")) {
             formula.replace(" ", "");
         }
@@ -274,7 +276,7 @@ public class Validator {
                 boolean all = true;
                 String help = "";
                 for (int i = 0; i < tarskiData.getShapes().length; i++) {
-                    help = formula.replace("(" + variant + ")", "(" + i + ")" ); //Ax(Blue(0)\/Small(0))
+                    help = formula.replace(variant + "", i + "" ); //Ax(Blue(0)\/Small(0))
                     if(check(help.substring(index + 2)) == "(false)") {
                         all = false;
                         i = formulaChar.length;
@@ -311,7 +313,7 @@ public class Validator {
                 boolean any = false;
                 String help = "";
                 for (int i = 0; i < tarskiData.getShapes().length; i++) {
-                    help = formula.replace("(" + variant + ")", "(" + i + ")" );
+                    help = formula.replace(variant + "", i + "");
                     if(check(help.substring(index + 2)) == "(true)") {
                         any = true;
                         i = formulaChar.length;
@@ -328,111 +330,147 @@ public class Validator {
         //MÉRETEK
         //'Small()' keresése
         if (formula.contains("Small(")) {
-            if(small(formula.substring(6, formulaChar.length - 1)) == "(true)") {
+            String help = small(formula.substring(6, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'Medium()' keresése
         if (formula.contains("Medium(")) {
-            if(medium(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+            String help = medium(formula.substring(7, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'Large()' keresése
         if (formula.contains("Large(")) {
-            if(large(formula.substring(6, formulaChar.length - 1)) == "(true)") {
+            String help = large(formula.substring(6, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)"){
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //SZÍNEK
         //'Red()' keresése
         if (formula.contains("Red(")) {
-            if(red(formula.substring(4, formulaChar.length - 1)) == "(true)") {
+            String help = red(formula.substring(4, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'Green()' keresése
         if (formula.contains("Green(")) {
-            if(green(formula.substring(6, formulaChar.length - 1)) == "(true)") {
+            String help = green(formula.substring(6, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'Blue()' keresése
         if (formula.contains("Blue(")) {
-            if(blue(formula.substring(5, formulaChar.length - 1)) == "(true)") {
+            String help = blue(formula.substring(5, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //ALAKZATOK
         //'Triangle()' keresése
         if (formula.contains("Triangle(")) {
-            if(triangle(formula.substring(9, formulaChar.length - 1)) == "(true)") {
+            String help = triangle(formula.substring(9, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'Square()' keresése
         if (formula.contains("Square(")) {
-            if(square(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+            String help = square(formula.substring(7, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'Circle()' keresése
         if (formula.contains("Circle(")) {
-            if(circle(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+            String help = circle(formula.substring(7, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'LeftOf()' keresése - LeftOf(A,B) is true if 'A' x position < 'B' x position
         if(formula.contains("LeftOf(")) {
-            if(leftOf(formula.substring(7, formulaChar.length - 1)) == "(true)") {
+            String help = leftOf(formula.substring(7, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'RightOf()' keresése - RightOf(A,B) is true if 'A' x position > 'B' x position
         if(formula.contains("RightOf(")) {
-            if(rightOf(formula.substring(8, formulaChar.length - 1)) == "(true)") {
+            String help = rightOf(formula.substring(8, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
         //'Between()' keresése - Between(A,B,C) is true if 'A' x position < 'B' x position < 'C' x position
         if(formula.contains("Between(")) {
-            if(between(formula.substring(8, formulaChar.length - 1)) == "(true)") {
+            String help = between(formula.substring(8, formulaChar.length - 1));
+            if(help == "(true)") {
                 return "(true)";
-            } else {
+            } else if(help == "(false)") {
                 return "(false)";
+            } else {
+                return "Syntax error";
             }
         }
 
@@ -472,7 +510,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -508,7 +546,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -544,7 +582,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -580,7 +618,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -616,7 +654,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -652,7 +690,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -688,7 +726,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -724,7 +762,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -760,7 +798,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -832,7 +870,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -904,7 +942,7 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 
 
@@ -932,13 +970,15 @@ public class Validator {
         for (int i = 0; i < shapeNamesChar.length; i++){
             if(shapeNamesChar[i] == ',' && split) {
                 cut = i + 1;
-                split = false;
                 shapeName1 = shapeNames.substring(0,i);
             }
             if(shapeNamesChar[i] == ',' && !split) {
                 shapeName2 = shapeNames.substring(cut,i);
                 shapeName3 = shapeNames.substring(i+1);
                 i = shapeNamesChar.length;
+            }
+            if(shapeName1 != ""){
+                split = false;
             }
         }
 
@@ -1003,6 +1043,6 @@ public class Validator {
                 return "(false)";
             }
         }
-        return "(false)";
+        return "Syntax error";
     }
 }
