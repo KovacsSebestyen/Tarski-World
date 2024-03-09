@@ -89,30 +89,26 @@ function App() {
 
   return (
     <div>
-      <div className="Send_Formula">
-        <header className="App-header">
-          <form>
-            <input type="text" id="datain" name="datain" onChange={handleChange}>
-            </input>
-          </form>
-          <button type="button" onClick={handleSubmit}>Check formula!</button>
-        </header>
-        {backendresponse=="cat"&&
-        (<div dangerouslySetInnerHTML={{ __html: iframeString }} />)
-        }
-        {backendresponse!="cat"&&
-        (<h1>{backendresponse}</h1>)
-        }
+      <div className="green_background">
+        <h1 id="tarski_title">Tarski világa</h1>
       </div>
       <div className="Create_Shape">
-        <form>
-          <input type="number" id="position_x" name="position_x" onChange={changePosX}>
-          </input>
-          <input type="number" id="position_y" name="position_y" onChange={changePosY}>
-          </input>
+        <div className="green_background">
+          <h2 align="center">Elem létrehozása</h2>
+        <form align="center">
+          <label >
+          X pozíció:
+            <input className="position_input" type="number" id="position_x" name="position_x" onChange={changePosX}>
+            </input>
+          </label>
+          <label >
+          Y pozíció:
+            <input className="position_input" type="number" id="position_y" name="position_y" onChange={changePosY}>
+            </input>
+          </label>
         </form>
-        <form>
-          
+        <div className="radio_buttons">
+        <div className="create_column">
             <label>
               <input type="radio" value="Triangle" id="triangle" name="shape" defaultChecked onChange={changeShape}>
               </input>
@@ -128,10 +124,8 @@ function App() {
               </input>
               Circle
             </label><br/>
-          
-        </form>
-        <hr></hr>
-        <form>
+        </div>
+        <div className="create_column">
           <label>
             <input type="radio" value="Red" id="red" name="color" defaultChecked onChange={changeColor}>
             </input>
@@ -147,9 +141,8 @@ function App() {
             </input>
             Blue
           </label><br/>
-        </form>
-        <hr></hr>
-        <form>
+        </div>
+        <div id="float_right">
           <label>
             <input type="radio" value="Small" id="small" name="size" defaultChecked onChange={changeSize}>
             </input>
@@ -165,18 +158,61 @@ function App() {
             </input>
             Large
           </label><br/>
-        </form>
+        </div>
+        </div>
+        <div align="center">
         <form>
-          <input type="text" id="shape_name" name="shape_name" onChange={changeName}>
+          <label>
+            Name:
+          <input className="input" type="text" id="shape_name" name="shape_name" onChange={changeName}>
           </input>
-          <button type="button" onClick={addShape}>Add shape!</button>
+          </label>
         </form>
-        <h3>{shape.pos_x}</h3>
-        <h3>{shape.pos_y}</h3>
-        <h3>{shape.shape}</h3>
-        <h3>{shape.color}</h3>
-        <h3>{shape.size}</h3>
-        <h3>{shape.name}</h3>
+        <button type="button" onClick={addShape}>Add shape!</button>
+        </div>
+        </div>
+        <div className="green_background" align="center">
+          <h2>Létrehozandó alakzat</h2>
+          <table>
+            <tr id="table_title">
+              <td>X pozíció</td>
+              <td>Y pozíció</td>
+              <td>Alakzat</td>
+              <td>Szín</td>
+              <td>Méret</td>
+              <td>Név</td>
+            </tr>
+            <tr id="table_rows">
+              <td>{shape.pos_x}</td>
+              <td>{shape.pos_y}</td>
+              <td>{shape.shape}</td>
+             <td>{shape.color}</td>
+              <td>{shape.size}</td>
+              <td>{shape.name}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div className="Send_Formula">
+        <div className="green_background">
+        <header className="App-header" align="center">
+          <h2>Formula megadása</h2>
+          <form>
+            <label>
+              Formula:
+            <input className="input" type="text" id="datain" name="datain" onChange={handleChange}>
+            </input>
+            </label>
+          </form>
+          <button type="button" onClick={handleSubmit}>Check formula!</button>
+        </header>
+        {backendresponse=="cat"&&
+        (<div dangerouslySetInnerHTML={{ __html: iframeString }} />)
+        }
+        {backendresponse!="cat"&&
+        (<h1>{backendresponse}</h1>)
+        }
+      </div>
       </div>
     </div>
   );

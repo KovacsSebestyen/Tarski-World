@@ -1,0 +1,75 @@
+body
+{
+    background-color: rgb(39, 39, 53);
+    color: white;
+}
+.green_background
+{
+    background-color: rgba(2, 82, 2, 0.3);
+    border-radius: 25px;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#tarski_title
+{
+    margin: 10px;
+    text-align: center;
+}
+.position_input
+{
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 50px;
+}
+.input
+{
+    margin: 20px;
+}
+.create_column
+{
+    float: left;
+    border-right: 2px solid;
+}
+.radio_buttons
+{
+    width: 23%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.radio_buttons div
+{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+#float_right
+{
+    float: right;
+}
+#add_button
+{
+    margin: auto;
+}
+td
+{
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    border: 2px rgba(0, 0, 0, 0.3) solid;
+}
+#table_rows
+{
+    background-color: rgb(199, 199, 199);
+    color: black;
+}
+#table_title
+{
+    background-color: rgb(155, 155, 155);
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
+}
